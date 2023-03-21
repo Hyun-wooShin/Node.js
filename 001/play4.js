@@ -37,7 +37,7 @@ const toArray = (arg1, arg2, arg3) => {
 };
 
 console.log(toArray(1,2,3)); //[ 1, 2, 3 ]
-console.log(toArray(1,2,3,4)); //허용되지 않은 마지막 arg 4를 넣어어 출력하려면 메소드를 수정해야한다. 그래서 아래와 같이 Rest를 사용한다. [ 1, 2, 3 ]
+console.log(toArray(1,2,3,4)); //허용되지 않은 마지막 arg 4를 넣어 출력하려면 메소드를 수정해야한다. 그래서 아래와 같이 Rest를 사용한다. [ 1, 2, 3 ]
 
 const toArrayRest = (...arg) => {return arg}; //파라메터에 레스트 사용
 console.log(toArrayRest(1,2,3)); //[ 1, 2, 3 ]
