@@ -19,7 +19,8 @@ const summarizeUser4 = (userName, userAge, userHasHobby) => ('Name is '+userName
 
 const add1 = (a,b)=>(a+b);
 const add2 = (a)=>(a+1);
-const add3= a=>a+1;
+const add3 = a=>a+1;
+const add4 = ()=>1+2;
 
 console.log(name,age,hasHabies);
 console.log(summarizeUser1('shin', 45, true));
@@ -29,3 +30,4 @@ console.log(summarizeUser4('shin', 45, true));
 console.log(add1(1,2));
 console.log(add2(1));
 console.log(add3(1));
+console.log(add4());
