@@ -17,7 +17,6 @@
 
 ## 003
 ### 개선된 개발 워크플로우 및 디버깅
- 자세한 사항은 npm사용법.md 에 있음
- - npm 사용해보기
- - nodemon을 local dependency로 설정
+- npm사용법.md : npm 사용해보기
+- npm사용법.md : nodemon을 local dependency로 설정
  
