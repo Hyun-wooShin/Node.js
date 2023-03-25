@@ -17,3 +17,21 @@
 - npm start 명령 실행
 - app3.js에서 변경사항이 일어나면 바로 바로 반영됨.
 - node_modules 폴더는 제외하고 형상관리함. 그렇기 때문에 항상 소스를 새로 받을 경우 npm install을 먼저 실행해줘서 node_modules 폴더가 생성되도록 해야한다.
+
+## 디버그 설정
+- vs code > 실행 > 구성추가
+- .vscode/launch.json 생성되면 수정 
+   ```
+   "program": "${workspaceFolder}\\003\\app3.js",
+   ```
+- .vscode/launch.json 에 추가 => 디버그모드에서도 소스가 수정되면 재시작이 가능하고 nodemon을 사용하며 디버그콘솔에도 출력이 되도록 하는 설정
+  ```
+  "restart": true,
+  "runtimeExecutable": "nodemon",
+  "console": "integratedTerminal"
+  ```
+- F5 눌러 디버그 실행하면 에러나는데 이때  npm install -g nodemon 를 실행해 전역에 nodemon을 설치해준다.
+- [참고] Node.js 디버깅에 대한 추가 정보 
+  https://nodejs.org/en/docs/guides/debugging-getting-started/
+- [참고] Visual Studio Code에서 노드 디버깅하기
+  https://code.visualstudio.com/docs/nodejs/nodejs-debugging
