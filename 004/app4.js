@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require("body-parser");
 
 //라우트 분리 사용
-const adminRoutes = require('./routes/admin');
-const shopRoutes = require('./routes/shop');
+const adminRoutes = require('./routes/admin4');
+const shopRoutes = require('./routes/shop4');
 
 const app = express();
 

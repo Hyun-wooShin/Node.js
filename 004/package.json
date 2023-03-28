@@ -2,7 +2,7 @@
   "name": "004",
   "version": "1.0.0",
   "description": "",
-  "main": "app4.js",
+  "main": "app6.js",
   "dependencies": {
     "body-parser": "^1.20.2",
     "express": "^4.18.2"
@@ -12,7 +12,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app4.js"
+    "start": "nodemon app6.js"
   },
   "author": "",
   "license": "ISC"
