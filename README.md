@@ -30,3 +30,8 @@
 - app4.js : Express.js 라우트 분리 사용 (필터사용, 필터미사용)
 - app5.js : Dumy html이 아닌 html 파일(view) 생성
 - app6.js : html 파일의 경로를 알아올때 main 프로세스가 존재하는 폴더경로로 세팅하기 , 파일 정적 서비스
+
+## 005
+### 템플릿엔진
+- 설명.md : 세가지 모듈(pug , ejs, handlebar) 설치
+- app1.js : pug 사용
