@@ -17,7 +17,7 @@ router.get('/', (req, res, next)=>{
     // main에 pug위치를 등록했으므로 그냥 shop만 입력하면됨.
     const products = adminData.products;
     console.log(products);
-    res.render('shop',{prods:products, docTitle:'Shop'});
+    res.render('shop',{pageTitle:'Shop', prods:products, path:'/'});
 });
 
 module.exports = router;
