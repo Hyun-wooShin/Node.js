@@ -32,6 +32,11 @@
 - app6.js : html 파일의 경로를 알아올때 main 프로세스가 존재하는 폴더경로로 세팅하기 , 파일 정적 서비스
 
 ## 005
-### 템플릿엔진
+### 템플릿엔진(pug)
 - 설명.md : 세가지 모듈(pug , ejs, handlebar) 설치
 - app1.js : pug 사용
+
+## 006
+### 템플릿엔진(handlebar)
+- 설명.md : handlebar 설치
+- app1.js : handlebar 사용 , express에 표현식을 두고  handlebar는 최대한 표현식 없이 간결
