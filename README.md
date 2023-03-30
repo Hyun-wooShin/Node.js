@@ -47,3 +47,6 @@
 ### 템플릿엔진(EJS)
 - EJS는 layout이 없어 include를 사용해야한다. 그러나 javascript 표현식을 쓸 수 있는 장점이 있다.
 - app1.js : EJS 사용
+
+## 007
+### MVC
