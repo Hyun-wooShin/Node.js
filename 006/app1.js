@@ -26,7 +26,7 @@ app.engine('hbs', expressHbs({
 //템플릿엔진으로 handlebars를 사용하겠다고 express에 알리는 구문
 app.set('view engine', 'hbs');
 
-//view 템플릿들이 위치한 경로 등록 여기서는 ./views 경로 (./view 경로의 .pug 파일)
+//view 템플릿들이 위치한 경로 등록 여기서는 ./views 경로 (./view 경로의 .hbs 파일)
 app.set('views','views');
 
 app.use(bodyParser.urlencoded({extended: false}));

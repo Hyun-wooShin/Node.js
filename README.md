@@ -34,9 +34,16 @@
 ## 005
 ### 템플릿엔진(pug)
 - 설명.md : 세가지 모듈(pug , ejs, handlebar) 설치
+- pug는 html을 경량화 시켜 사용할 수 있는 장점이 있다
 - app1.js : pug 사용
 
 ## 006
 ### 템플릿엔진(handlebar)
 - 설명.md : handlebar 설치
-- app1.js : handlebar 사용 , express에 표현식을 두고  handlebar는 최대한 표현식 없이 간결
+- handlebar는 express에 표현식을 두고  handlebar는 최대한 표현식 없이 간결하다.
+- app1.js : handlebar 사용
+
+## 007
+### 템플릿엔진(EJS)
+- EJS는 layout이 없어 include를 사용해야한다. 그러나 javascript 표현식을 쓸 수 있는 장점이 있다.
+- app1.js : EJS 사용
