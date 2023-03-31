@@ -1,15 +1,10 @@
 const path = require('path');
-
-const rootDir = require('../util/path');
-
 const express = require('express');
+
+const errorController = require('../controllers/error.js');
 
 const router = express.Router();
 
-router.use((req, res, next)=>{
-    // const error404HtmlPath = path.join(rootDir , "views","404.html");
-    // res.status(404).sendFile(error404HtmlPath);
-    res.status(404).render('404', {pageTitle:'Error404'});
-});
+router.use(errorController.get404);
 
 module.exports = router;
