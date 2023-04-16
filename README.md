@@ -51,3 +51,7 @@
 ## 008
 ### MVC
 - app1.js : MVC 사용 => Controller , Model 추가
+
+## 008
+### 예제 프로젝트 전체 기능 완성
+- app1.js : Product 추가,편집,삭제 기능 구현
