@@ -52,6 +52,7 @@
 ### MVC
 - app1.js : MVC 사용 => Controller , Model 추가
 
-## 008
-### 예제 프로젝트 전체 기능 완성
-- app1.js : Product 추가,편집,삭제 기능 구현
+## 009
+### 예제 프로젝트 전체 기능 완성(1)
+- app1.js : 사용자단(Shop) , 관리자단(Admin) 기능 분리  
+- app1.js : 관리자단(Admin)에 Product 추가,편집,삭제 기능 구현

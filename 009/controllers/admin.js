@@ -4,10 +4,7 @@ const Product = require('../models/product');
 exports.getAddProducts = (req, res, next)=>{
     res.render('admin/add-product', {
         pageTitle: 'Add Product', 
-        path: '/admin/add-product',
-        formsCSS: true,
-        productCSS: true,
-        activeAddProduct: true
+        path: '/admin/add-product'
     });
 }
 
@@ -17,34 +14,30 @@ exports.getAdminProducts = (req, res, next)=>{
         res.render('admin/products',{
             pageTitle:'Products', 
             prods:products, 
-            path:'/admin/products', 
-            formsCSS: true,
-            productCSS: true,
-            activeAddProduct: true
+            path:'/admin/products'
         });
     });
 }
 
 //admin 제품추가
 exports.postAddProducts = (req,res,next)=>{
-    //products.push({title: req.body.title})
-    const product = new Product(req.body.title);
+    const title = req.body.title; 
+    const imageUrl = req.body.imageUrl; 
+    const description = req.body.description; 
+    const price = req.body.price;
+    const product = new Product(title, imageUrl, description, price);
     product.save();
     res.redirect('/');
 }
 
-
-//shop 제품목록 렌더링
 exports.getProducts = (req, res, next)=>{
     Product.fetchAll(products => {
-        res.render('shop/product-list',{
-            pageTitle:'shop', 
+        res.render('admin/products',{
+            pageTitle:'Admin products', 
             prods:products, 
-            path:'/', 
-            hasProds: products.length>0 ? true : false,
-            activeShop: true,
-            productCSS: true
+            path:'/admin/products'
         });
     });
-    
 }
+
+
