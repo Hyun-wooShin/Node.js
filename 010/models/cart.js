@@ -34,8 +34,8 @@ module.exports = class cart{
                 updatedProduct = { id: id, qty: 1};
                 cart.products = [...cart.products, updatedProduct];
             }
-
-            cart.totalPrice = cart.totalPrice + productPrice;
+            
+            cart.totalPrice = cart.totalPrice + +productPrice; //productPrice앞에 +가 붙어있는 것은 문자열을 숫자로 변환하기 위함.
 
             fs.writeFile(p, JSON.stringify(cart), err => {
                 console.log(err);
