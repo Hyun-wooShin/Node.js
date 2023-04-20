@@ -1,16 +1,47 @@
 const Product = require('../models/product');
 
 exports.getAddProduct = (req, res, next) => {
-  res.render('admin/add-product', {
+  res.render('admin/edit-product', {
     pageTitle: 'Add Product',
     path: '/admin/add-product',
-    formsCSS: true,
-    productCSS: true,
-    activeAddProduct: true
+    editing: false
   });
 };
 
 exports.postAddProduct = (req, res, next) => {
+  const title = req.body.title;
+  const imageUrl = req.body.imageUrl;
+  const price = req.body.price;
+  const description = req.body.description;
+  const product = new Product(title, imageUrl, description, price);
+  product.save();
+  res.redirect('/');
+};
+
+//상품수정
+exports.getEditProduct = (req, res, next) => {
+  //쿼리매개변수 세팅
+  const editMode = req.query.edit;
+  if(!editMode){
+    return res.redirect('/');
+  }
+  //:productId 로 넘긴것은 req.params로 받는다
+  const prodId = req.params.productId;
+  Product.findById(prodId, product => {
+    if (!product) {
+      return res.redirect('/');
+    }
+    res.render('admin/edit-product', {
+      pageTitle: 'Edit Product',
+      path: '/admin/edit-product',
+      editing: editMode,
+      product: product
+    });
+  });
+};
+
+exports.postEditProduct = (req, res, next) => {
+  const id = req.body.id;
   const title = req.body.title;
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
