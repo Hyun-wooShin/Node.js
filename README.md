@@ -70,3 +70,7 @@
 ### 예제 프로젝트 전체 기능 완성(3) 
 - MySQL 의존성 설치 : npm install --save mysql2
 - MySQL 연결과 연결하여 쿼리를 직접 사요하는 방법을 사용
+
+## 012
+### 예제 프로젝트 전체 기능 완성(4) 
+- MySQL쿼리를 직접 사용하지 않고 Sequelize를 사용 : npm install --save sequelize
