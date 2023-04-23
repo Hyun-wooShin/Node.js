@@ -33,10 +33,23 @@ exports.getIndex = (req, res, next) => {
   });
 };
 
+//장바구니 리스트
 exports.getCart = (req, res, next) => {
-  res.render('shop/cart', {
-    path: '/cart',
-    pageTitle: 'Your Cart'
+  Cart.getCart(cart => {
+    Product.fetchAll(products => {
+      const cartProducts = [];
+      for (product of products){
+        const cartProductData = cart.products.find(prod => prod.id === product.id);
+        if(cartProductData){
+          cartProducts.push({productData: product, qty: cartProductData.qty});
+        }
+      }
+      res.render('shop/cart', {
+        products: cartProducts,
+        path: '/cart',
+        pageTitle: 'Your Cart'
+      });
+    });
   });
 };
 
@@ -48,6 +61,15 @@ exports.postCart = (req, res, next) => {
   })
   console.log(prodId);
   res.redirect('/cart');
+}
+
+//장바구니 삭제
+exports.postCartDeleteProduct = (req, res, next) => {
+  const prodId = req.body.productId;
+  Product.findById(prodId, product=>{
+    Cart.deleteProduct(prodId, product.price);
+    res.redirect('/cart');
+  });
 }
 
 exports.getOrders = (req, res, next) => {
