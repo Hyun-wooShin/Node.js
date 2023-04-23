@@ -66,3 +66,7 @@
 - 라우트에 동적 데이터 전달 => :a 와 같이 콤롬을 붙임 , req.params 로 추출가능
 - Optional (Query) Parameters는  ?param=value&b=2 와 같이 넘길 수 있고 , req.qeury 로 추출가능
 
+## 011
+### 예제 프로젝트 전체 기능 완성(3) 
+- MySQL 의존성 설치 : npm install --save mysql2
+- MySQL 연결과 연결하여 쿼리를 직접 사요하는 방법을 사용
