@@ -8,18 +8,25 @@ exports.getAddProduct = (req, res, next) => {
   });
 };
 
+//상품 등록
 exports.postAddProduct = (req, res, next) => {
   const title = req.body.title;
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
-  const product = new Product(null, title, imageUrl, description, price);
-  product.save()
-    .then(()=>{res.redirect('/');})
-    .catch(err => console.log(err));
+  Product.create({
+    title: title,
+    imageUrl: imageUrl,
+    price: price,
+    description: description
+  }).then(result=>{
+    console.log("Product Created!!");
+  }).catch(err=>{
+    console.log(err);
+  });
 };
 
-//상품수정
+//상품 수정폼 로드
 exports.getEditProduct = (req, res, next) => {
   //쿼리매개변수 세팅
   const editMode = req.query.edit;
@@ -41,6 +48,7 @@ exports.getEditProduct = (req, res, next) => {
   });
 };
 
+//상품 수정
 exports.postEditProduct = (req, res, next) => {
   const prodId = req.body.productId;
   const updatedTitle = req.body.title;
