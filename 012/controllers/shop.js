@@ -18,11 +18,23 @@ exports.getProducts = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
   //라우터에서 지정한 :productId 에 대한 처리로 req.params.productId 지정
   const prodId = req.params.productId;
+  //findAll where를 써도 되고 findByPk를 써도 되지만 findByPk는 pk일경우 쓰면 된다.
+  /*
+  Product.findAll({where: {id: prodId}})
+    .then(products =>{
+      res.render('shop/product-detail', {
+        product: products[0],
+        pageTitle: products[0].title,
+        path: '/products'
+      });
+    })
+    .catch(err=>console.log(err));
+  */
   Product.findByPk(prodId)
     .then(product =>{
       res.render('shop/product-detail', {
         product: product,
-        pageTitle: 'Product',
+        pageTitle: product.title,
         path: '/products'
       });
     })

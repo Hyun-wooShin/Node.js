@@ -22,6 +22,7 @@ exports.postAddProduct = (req, res, next) => {
     description: description
   }).then(result=>{
     console.log("Product Created!!");
+    res.redirect('/admin/products');
   }).catch(err=>{
     console.log(err);
   });
@@ -36,6 +37,26 @@ exports.getEditProduct = (req, res, next) => {
   }
   //:productId 로 넘긴것은 req.params로 받는다
   const prodId = req.params.productId;
+
+  //findAll where를 써도 되고 findByPk를 써도 되지만 findByPk는 pk일경우 쓰면 된다.
+  /*
+  Product.findAll({where: {id: prodId}}).then(
+    products => {
+      if (!products) {
+        return res.redirect('/');
+      }
+      res.render('admin/edit-product', {
+        pageTitle: 'Edit Product',
+        path: '/admin/edit-product',
+        editing: editMode,
+        product: products[0]
+      });
+    }
+  ).catch(err=>{
+    console.log(err);
+  })
+  */
+
   Product.findByPk(prodId).then(
     product => {
       if (!product) {
@@ -51,6 +72,7 @@ exports.getEditProduct = (req, res, next) => {
   ).catch(err=>{
     console.log(err);
   })
+
 };
 
 //상품 수정
@@ -61,15 +83,37 @@ exports.postEditProduct = (req, res, next) => {
   const updatedPrice = req.body.price;
   const updatedDescription = req.body.description;
 
-  const updatedProduct = new Product(prodId, updatedTitle, updatedImageUrl,updatedDescription, updatedPrice);
-  updatedProduct.save();
-  res.redirect('/admin/products');
+  Product.findByPk(prodId).then(product => {
+    product.title = updatedTitle;
+    product.imageUrl = updatedImageUrl;
+    product.price = updatedPrice;
+    product.description = updatedDescription;
+    return product.save();
+  })
+  .then(result => {
+    console.log('updated product!');
+    res.redirect('/admin/products');
+  })
+  .catch(err=>{
+    console.log(err);
+  })
 };
 
+//상품 삭제
 exports.postDeleteProduct = (req, res, next) => {
-  const ProdId = req.body.productId;
-  Product.deleteById(ProdId);
-  res.redirect('/admin/products')
+  const prodId = req.body.productId;
+  Product.findByPk(prodId).then(
+    product=> {
+      return product.destroy();
+    }
+  )
+  .then(result=>{
+    console.log('deleted product!')
+    res.redirect('/admin/products')
+  })
+  .catch(err=>{
+    console.log(err);
+  })
 }
 
 //상품목록
