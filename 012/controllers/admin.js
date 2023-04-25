@@ -15,7 +15,26 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl;
   const price = req.body.price;
   const description = req.body.description;
+
+  /*
   Product.create({
+    title: title,
+    imageUrl: imageUrl,
+    price: price,
+    description: description,
+    userId: req.user.id
+  }).then(result=>{
+    console.log("Product Created!!");
+    res.redirect('/admin/products');
+  }).catch(err=>{
+    console.log(err);
+  });
+  */
+
+  //sequelize 기능=> 관계설정이 app.js에서 된후 createProduct()가 자동 생성되어 사용할 수 있다.
+  //createProduct()를 사용하여 Product 테이블에 userId를 자동 입력할 수 있다.
+  req.user
+  .createProduct({
     title: title,
     imageUrl: imageUrl,
     price: price,
@@ -57,7 +76,27 @@ exports.getEditProduct = (req, res, next) => {
   })
   */
 
-  Product.findByPk(prodId).then(
+  //접속중인 사용자에 대해서일 경우
+  req.user.getProducts({where: {id: prodId}})
+  .then(
+    products => {
+      if (!products) {
+        return res.redirect('/');
+      }
+      res.render('admin/edit-product', {
+        pageTitle: 'Edit Product',
+        path: '/admin/edit-product',
+        editing: editMode,
+        product: products[0]
+      });
+    }
+  ).catch(err=>{
+    console.log(err);
+  })
+  
+  /*
+  Product.findByPk(prodId)
+  .then(
     product => {
       if (!product) {
         return res.redirect('/');
@@ -72,6 +111,7 @@ exports.getEditProduct = (req, res, next) => {
   ).catch(err=>{
     console.log(err);
   })
+  */
 
 };
 
@@ -82,6 +122,7 @@ exports.postEditProduct = (req, res, next) => {
   const updatedImageUrl = req.body.imageUrl;
   const updatedPrice = req.body.price;
   const updatedDescription = req.body.description;
+
 
   Product.findByPk(prodId).then(product => {
     product.title = updatedTitle;
@@ -97,12 +138,28 @@ exports.postEditProduct = (req, res, next) => {
   .catch(err=>{
     console.log(err);
   })
+
 };
 
 //상품 삭제
 exports.postDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.findByPk(prodId).then(
+  req.user.getProducts({where: {id: prodId}})
+  .then(
+    products=> {
+      return products[0].destroy();
+    }
+  )
+  .then(result=>{
+    console.log('deleted product!')
+    res.redirect('/admin/products')
+  })
+  .catch(err=>{
+    console.log(err);
+  })
+  /*
+  Product.findByPk(prodId)
+  .then(
     product=> {
       return product.destroy();
     }
@@ -114,11 +171,14 @@ exports.postDeleteProduct = (req, res, next) => {
   .catch(err=>{
     console.log(err);
   })
+  */
 }
 
 //상품목록
 exports.getProducts = (req, res, next) => {
-  Product.findAll().then(products => {
+  req.user.getProducts()
+  //Product.findAll()
+  .then(products => {
     res.render('admin/products', {
       prods: products,
       pageTitle: 'Admin Products',
