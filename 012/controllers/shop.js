@@ -56,6 +56,7 @@ exports.getIndex = (req, res, next) => {
 
 //장바구니 리스트
 exports.getCart = (req, res, next) => {
+  /*
   Cart.getCart(cart => {
     Product.fetchAll(products => {
       const cartProducts = [];
@@ -72,16 +73,62 @@ exports.getCart = (req, res, next) => {
       });
     });
   });
+  */
+ req.user.getCart()
+ .then(cart=>{
+    return cart.getProducts()
+    .then(products=>{
+      res.render('shop/cart', {
+        products: products,
+        path: '/cart',
+        pageTitle: 'Your Cart'
+      });
+    }).catch(err => console.log(err));
+ })
+ .catch(err=>console.log(err));
 };
 
 //장바구니 저장
 exports.postCart = (req, res, next) => {
   const prodId = req.body.productId;
+  let fetchedCart;
+  /*
   Product.findById(prodId, (product)=>{
     Cart.addProduct(prodId, product.price);
   })
   console.log(prodId);
   res.redirect('/cart');
+  }
+  */
+  req.user
+  .getCart()
+  .then(cart=>{
+    fetchedCart = cart;
+    return cart.getProducts({where: {id: prodId}})
+  })
+  .then (products => {
+    let product;
+    if(products.length > 0)
+    {
+      product = products[0];
+    }
+    let newQuantity = 1;
+    if(product){
+      //상품이 있을경우 수량증가
+    }
+    
+    return Product.findByPk(prodId)
+        .then(product=> {
+        return fetchedCart.addProduct(product, 
+          {
+            through: {quantity: newQuantity}
+          });
+      })
+      .catch(err=>console.log(err));
+  })
+  .then(()=>res.redirect('/cart'))
+  .catch(err=>console.log(err));
+  
 }
 
 //장바구니 삭제
