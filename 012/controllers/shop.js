@@ -119,8 +119,7 @@ exports.postCart = (req, res, next) => {
     
     return Product.findByPk(prodId)
         .then(product=> {
-        return fetchedCart.addProduct(product, 
-          {
+          return fetchedCart.addProduct(product,{
             through: {quantity: newQuantity}
           });
       })
@@ -128,7 +127,6 @@ exports.postCart = (req, res, next) => {
   })
   .then(()=>res.redirect('/cart'))
   .catch(err=>console.log(err));
-  
 }
 
 //장바구니 삭제
