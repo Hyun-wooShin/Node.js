@@ -1,5 +1,4 @@
 const Product = require('../models/product');
-const Cart = require('../models/cart');
 
 //상품 조회
 exports.getProducts = (req, res, next) => {
@@ -114,7 +113,9 @@ exports.postCart = (req, res, next) => {
     }
     let newQuantity = 1;
     if(product){
+      console.log(product.cartItem.quantity);
       //상품이 있을경우 수량증가
+      newQuantity = newQuantity + product.cartItem.quantity;
     }
     
     return Product.findByPk(prodId)
@@ -132,22 +133,74 @@ exports.postCart = (req, res, next) => {
 //장바구니 삭제
 exports.postCartDeleteProduct = (req, res, next) => {
   const prodId = req.body.productId;
-  Product.findById(prodId, product=>{
+  req.user
+  .getCart()
+  .then(cart=>{
+    return cart.getProducts({where: {id: prodId}})
+  })
+  .then(products=>{
+    const product = products[0];
+    //products.destroy();
+    //중간테이블의 데이터를 삭제하므로 product가 아닌 product.cartItem
+    product.cartItem.destroy();
+    console.log('cart deleted!!');
+  })
+  .then(result=>{
+    res.redirect('/cart');
+  })
+  .catch(err=>console.log(err));
+
+  /*
+  const prodId = req.body.productId;
+  Product.findByPk(prodId, product=>{
     Cart.deleteProduct(prodId, product.price);
     res.redirect('/cart');
   });
+  */
 }
 
-exports.getOrders = (req, res, next) => {
-  res.render('shop/orders', {
-    path: '/orders',
-    pageTitle: 'Your Orders'
-  });
-};
+//주문처리
+exports.postOrder = (req, res, next) => {
+  let fetchedCart;
+  req.user
+  .getCart()
+  .then(cart=>{
+    fetchedCart = cart;
+    return cart.getProducts()
+  })
+  .then(products=>{
+    return req.user.createOrder()
+      .then(order=> {
+        return order.addProducts(products.map(product=>{
+          product.orderItem = {quantity: product.cartItem.quantity};
+          return product;
+        }));
+      })
+      .catch(err=>console.log(err));
+  })
+  .then(result=>{
+    fetchedCart.setProducts(null);//장바구니삭제
+  })
+  .then(result=>{
+    res.redirect('/orders');
+  })
+  .catch(err=>console.log(err));
+}
 
-exports.getCheckout = (req, res, next) => {
-  res.render('shop/checkout', {
-    path: '/checkout',
-    pageTitle: 'Checkout'
-  });
-};
+//주문목록조회
+exports.getOrders = (req, res, next) => {
+  req.user
+  .getOrders({include: ['products']})
+  .then(
+    orders => {
+      console.log(orders);
+      res.render('shop/orders', {
+        path: '/orders',
+        pageTitle: 'Your Orders',
+        orders: orders
+      });
+    }
+  )
+  .catch(err=>console.log(err));
+  
+}

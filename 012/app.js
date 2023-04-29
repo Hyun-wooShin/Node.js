@@ -9,6 +9,8 @@ const Product = require('./models/product');
 const User = require('./models/user');
 const Cart = require('./models/cart');
 const CartItem = require('./models/cart-item');
+const Order = require('./models/order');
+const OrderItem = require('./models/order-item');
 
 const app = express();
 
@@ -47,12 +49,20 @@ Cart.belongsTo(User);
 Cart.belongsToMany(Product ,{ through: CartItem });
 Product.belongsToMany(Cart ,{ through: CartItem });
 
+//User와 Order는 일대다 관계
+Order.belongsTo(User);
+User.hasMany(Order);
+
+//Order와 Procuct는 다대다, OrderItem은 Order와 Product의 중간모델
+Order.belongsToMany(Product ,{ through: OrderItem });
+Product.belongsToMany(Order ,{ through: OrderItem });
+
 //js에서 정의한 대로 실제 데이터베이스와 동기화 하는 부분
 sequelize
 .sync()
 //.sync({force: true}) //force: true 지정하면 테이블을 매번 지우고 다시만든다. 개발시 테이블 및 관계를 재설정할 경우 이걸로 하고 그게아니면 force: true는 빼야한다.
 .then(result => {
-    return User.findByPk(1) //Dummy User처리
+    return User.findByPk(1); //Dummy User처리
     //console.log(result);
 })
 .then(user => {
